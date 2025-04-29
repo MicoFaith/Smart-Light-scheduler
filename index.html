@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IoT Light Scheduler</title>
+</head>
+<body>
+    <h1>IoT Light Scheduler</h1>
+
+    <label>ON Time: <input type="time" id="onTime"></label><br><br>
+    <label>OFF Time: <input type="time" id="offTime"></label><br><br>
+    <button onclick="sendSchedule()">Submit</button>
+
+    <p>Status: <span id="statusText">Disconnected</span></p>
+
+    <script src="app.js"></script>
+</body>
+</html>
