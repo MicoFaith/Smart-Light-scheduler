@@ -1,52 +1,53 @@
-// Establish WebSocket connection
-const ws = new WebSocket("ws://localhost:6789");
+const wsUrl = 'ws://localhost:8765';
+let ws;
 
-// Elements
-const onTimeInput = document.getElementById("onTime");
-const offTimeInput = document.getElementById("offTime");
-const statusText = document.getElementById("statusText");
+function connectWebSocket() {
+    console.log(`Attempting to connect to ${wsUrl}`);
+    ws = new WebSocket(wsUrl);
 
-// Update status text
-function updateStatus(message) {
-    statusText.textContent = message;
-    statusText.style.color = message === "Connected" ? "#4CAF50" : "#ff9800";
+    ws.onopen = () => {
+        console.log(`Connected to WebSocket server at ${wsUrl}`);
+        document.getElementById('status').textContent = 'Status: Connected to server';
+    };
+
+    ws.onmessage = (event) => {
+        console.log('Received from server:', event.data);
+        document.getElementById('status').textContent = `Status: ${event.data}`;
+    };
+
+    ws.onerror = (error) => {
+        console.error('WebSocket error:', error);
+        document.getElementById('status').textContent = 'Status: WebSocket error (check console)';
+    };
+
+    ws.onclose = () => {
+        console.log('WebSocket connection closed');
+        document.getElementById('status').textContent = 'Status: Disconnected from server. Retrying...';
+        setTimeout(connectWebSocket, 5000);
+    };
 }
 
-// When WebSocket opens, update status to 'Connected'
-ws.onopen = function () {
-    updateStatus("Connected");
-};
+connectWebSocket();
 
-// When WebSocket is closed, update status to 'Disconnected'
-ws.onclose = function () {
-    updateStatus("Disconnected");
-};
-
-// Handle WebSocket errors
-ws.onerror = function (error) {
-    console.log("WebSocket Error: ", error);
-    updateStatus("Error");
-};
-
-// Function to send schedule to the server via WebSocket
-function sendSchedule() {
-    const onTime = onTimeInput.value;
-    const offTime = offTimeInput.value;
-
-    if (onTime && offTime) {
-        const schedule = {
-            onTime: onTime,
-            offTime: offTime
-        };
-
-        // Send schedule as JSON string via WebSocket
-        if (ws.readyState === WebSocket.OPEN) {
-            ws.send(JSON.stringify(schedule));
-            console.log("✅ Sent schedule:", schedule);
-        } else {
-            console.log("❌ WebSocket not connected.");
-        }
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('scheduleForm');
+    if (form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const onTime = document.getElementById('onTime').value;
+            const offTime = document.getElementById('offTime').value;
+            const schedule = { onTime, offTime };
+            console.log('Submitting schedule:', schedule);
+            if (ws.readyState === WebSocket.OPEN) {
+                ws.send(JSON.stringify(schedule));
+                console.log('Schedule sent to server');
+                document.getElementById('status').textContent = 'Status: Schedule sent!';
+            } else {
+                console.error('WebSocket not open:', ws.readyState);
+                document.getElementById('status').textContent = 'Status: WebSocket not connected';
+            }
+        });
     } else {
-        alert("Please fill in both ON and OFF times.");
+        console.error('Form with ID "scheduleForm" not found');
     }
-}
+});
