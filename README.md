@@ -29,7 +29,49 @@ Simulate a real-world IoT dashboard to control a light through an intuitive inte
 
 ### 1. Clone this repository
 ```bash
-git clone https://github.com/your-username/smartlight-scheduler.git
+git clone https://github.com/MicoFaith/Smart-Light-scheduler.git
+cd Smart-Light-scheduler
+2. Start the WebSocket Server
+bash
+Copy
+Edit
+python websocket_server.py
+3. Open the Dashboard
+Open index.html in your browser (double-click or right-click > Open with Chrome)
+
+4. Start the MQTT Subscriber
+bash
+Copy
+Edit
+python subscriber.py
+⚠️ Make sure your Arduino is connected and uses the correct COM port (default: COM3). Update subscriber.py if needed.
+
+🖼️ Screenshots
+WebSocket Server
+server.png
+MQTT Subscriber
+subscriber.png
+cd smartlight-scheduler
+2. Start the WebSocket Server
+bash
+Copy
+Edit
+python websocket_server.py
+3. Open the Dashboard
+Open index.html in your browser (double-click or right-click > Open with Chrome)
+
+4. Start the MQTT Subscriber
+bash
+Copy
+Edit
+python subscriber.py
+⚠️ Make sure your Arduino is connected and uses the correct COM port (default: COM3). Update subscriber.py if needed.
+
+🖼️ Screenshots
+WebSocket Server
+server.png
+MQTT Subscriber
+subscriber.png
 cd smartlight-scheduler
 2. Start the WebSocket Server
 bash
