@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IoT Light Scheduler</title>
+    <title>Light Scheduler</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>IoT Light Scheduler</h1>
-
-    <label>ON Time: <input type="time" id="onTime"></label><br><br>
-    <label>OFF Time: <input type="time" id="offTime"></label><br><br>
-    <button onclick="sendSchedule()">Submit</button>
-
-    <p>Status: <span id="statusText">Disconnected</span></p>
-
+    <div class="container">
+        <h1>Light Scheduler</h1>
+        <form id="scheduleForm">
+            <label for="onTime">ON Time (HH:MM:SS):</label>
+            <input type="time" id="onTime" name="onTime" step="1" required>
+            <label for="offTime">OFF Time (HH:MM:SS):</label>
+            <input type="time" id="offTime" name="offTime" step="1" required>
+            <button type="submit">Submit Schedule</button>
+        </form>
+        <p id="status">Status: Waiting for connection...</p>
+    </div>
     <script src="app.js"></script>
 </body>
 </html>
